@@ -15,51 +15,7 @@ export default function Home() {
   const [showPassword, setShowPassword] = useState(false);
 
   async function request() {
-    try {
-      if(login.trim().length === 0) {
-        throw new Error("Login nao pode ser vazio");
-      }
-
-      if(password.trim().length === 0) {
-        throw new Error("Senha nao pode ser vazio");
-      }
-
-      const payload = {
-        username: login.trim(),
-        password: password
-      };
-
-      const apiBase = process.env.NEXT_PUBLIC_API_BASE;
-      const apiVersion = process.env.NEXT_PUBLIC_API_VERSION;
-      
-      const data = await enviarRequisicao(`${apiBase}/${apiVersion}/auth/login`, payload);
-
-    if (data.token) {
-      Cookies.set('token', data.token, { expires: 1, path: '/' });
-      window.location.href = '/frete';
-    } else {
-      alert('Token não recebido');
-    }
-    } catch (err: any) {
-      setErro('Erro ao autenticar');
-    }
-  }
-
-  async function enviarRequisicao(url: string, payload: object) {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      const erro = await response.text();
-      throw new Error(`Erro do servidor: ${erro}`);
-    }
-
-    return await response.json();
+    console.log("Clicou no botao")
   }
 
   return (
@@ -92,12 +48,6 @@ export default function Home() {
       </div>
 
       <button className={Styles.button} onClick={request}>Realizar Login</button>
-
-      <div className={Styles.requisitos}>
-        <p className={Styles.link} onClick={() => router.push('/usuario')}>
-          Não tem uma conta? <strong>Crie agora</strong>
-        </p>
-      </div>
 
       {erro && <p className={Styles.error}>{erro}</p>}
     </main>
